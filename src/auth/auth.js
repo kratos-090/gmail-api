@@ -65,8 +65,8 @@ async function authorize() {
 
 
 
-authorize().then(() => {
-  console.log('Authorized!');
-}).catch(console.error);
+// authorize().then(() => {
+//   console.log('Authorized!');
+// }).catch(console.error);
 
 module.exports = authorize;
