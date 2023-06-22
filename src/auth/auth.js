@@ -4,11 +4,9 @@ const process = require('process');
 const {authenticate} = require('@google-cloud/local-auth');
 const {google} = require('googleapis');
 
-// If modifying these scopes, delete token.json.
+
 const SCOPES = ['https://mail.google.com/'];
-// The file token.json stores the user's access and refresh tokens, and is
-// created automatically when the authorization flow completes for the first
-// time.
+
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
 
@@ -65,26 +63,7 @@ async function authorize() {
   return client;
 }
 
-/**
- * Lists the labels in the user's account.
- *
- * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
- */
-async function listLabels(auth) {
-  const gmail = google.gmail({version: 'v1', auth});
-  const res = await gmail.users.labels.list({
-    userId: 'me',
-  });
-  const labels = res.data.labels;
-  if (!labels || labels.length === 0) {
-    console.log('No labels found.');
-    return;
-  }
-  console.log('Labels:');
-  labels.forEach((label) => {
-    console.log(`- ${label.name}`);
-  });
-}
+
 
 authorize().then(() => {
   console.log('Authorized!');

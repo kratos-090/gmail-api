@@ -7,7 +7,7 @@ const {
   hasRepliedAndFromEmail,
   sendReply,
   getLabel,
-  moveToLabel
+  moveToLabel,
 } = require("../function/function");
 
 const checkMail = cron.schedule(
@@ -18,7 +18,7 @@ const checkMail = cron.schedule(
       const gmail = google.gmail({ version: "v1", auth });
       const threads = await gmail.users.threads.list({
         userId: "me",
-        q: "label:inbox",
+        q: "label:inbox is:unread",
       });
 
       if (!threads.data.threads || threads.data.threads.length === 0) {
@@ -44,6 +44,7 @@ const checkMail = cron.schedule(
           const label = await getLabel(auth, "REPLIED");
           const labelId = label.id;
           const newThread = await moveToLabel(auth, thread.id, labelId);
+          console.log("Replied to email");
         } else {
           console.log("Already replied to this email");
         }

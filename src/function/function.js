@@ -4,11 +4,9 @@ const fs = require("fs").promises;
 const LABEL_PATH = path.join(process.cwd(), "label.json");
 const { google } = require("googleapis");
 
-const authorize = require("../auth/auth");
 
 const hasRepliedAndFromEmail = async (auth, threadId) => {
   try {
-    const auth = await authorize();
     const gmail = google.gmail({ version: "v1", auth });
     const res = await gmail.users.threads.get({
       userId: "me",
@@ -50,7 +48,7 @@ const hasRepliedAndFromEmail = async (auth, threadId) => {
 
 const checkLabel = async (auth, label) => {
   try {
-    const auth = await authorize();
+
     const gmail = google.gmail({ version: "v1", auth });
     const labels = await gmail.users.labels.list({
       userId: "me",
@@ -74,7 +72,6 @@ const checkLabel = async (auth, label) => {
 
 const createLabel = async (auth, label) => {
   try {
-    const auth = await authorize();
 
     const gmail = google.gmail({ version: "v1", auth });
     const res = await gmail.users.labels.create({
@@ -97,7 +94,6 @@ const createLabel = async (auth, label) => {
 
 const sendReply = async (auth, threadId, from) => {
   try {
-    const auth = await authorize();
 
     const gmail = google.gmail({ version: "v1", auth });
 
@@ -147,7 +143,6 @@ const getLabel = async (auth, labelName) => {
 
 const moveToLabel = async (auth, threadId, labelId) => {
   try {
-    const auth = await authorize();
     const gmail = google.gmail({ version: "v1", auth });
     const newThread = await gmail.users.threads.modify({
       userId: "me",
